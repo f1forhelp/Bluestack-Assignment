@@ -1,4 +1,5 @@
 import 'package:bluestack_assignment/presentation/pages/authentication/login_screen.dart';
+import 'package:bluestack_assignment/presentation/pages/dashboard/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       builder: () => MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData.light(),
-        home: const LoginPage(),
+        home: const HomePage(),
       ),
     );
   }
