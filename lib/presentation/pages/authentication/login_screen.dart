@@ -1,6 +1,7 @@
-import 'package:bluestack_assignment/core/utils/constants/asset_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../utils/constants/asset_constnats.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
