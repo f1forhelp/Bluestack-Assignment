@@ -1,5 +1,6 @@
 import 'package:bluestack_assignment/presentation/provider/dashboard/home_provder.dart';
 import 'package:bluestack_assignment/presentation/widgets/base_view.dart';
+import 'package:bluestack_assignment/presentation/widgets/custom_paginated_sliver_builder.dart';
 import 'package:bluestack_assignment/presentation/widgets/custom_sliver_header.dart';
 import 'package:bluestack_assignment/utils/constants/color_constants.dart';
 import 'package:bluestack_assignment/utils/helper/ui_helper.dart';
@@ -50,44 +51,42 @@ class _HomePageState extends State<HomePage> {
             //     },
             //   ),
             // ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, i) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20.r),
-                        color: Colors.transparent,
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 4,
-                            spreadRadius: 0,
-                            offset: Offset(4, 4),
-                            color: Colors.black12,
-                          )
-                        ],
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20.r),
-                        child: Container(
-                          color: Colors.white,
-                          child: Column(
-                            children: [
-                              CachedNetworkImage(
-                                imageUrl: model.tournaments[i].coverUrl ?? "",
-                              ),
-                              Text(model.tournaments[i].name ?? ""),
-                              Text(model.tournaments[i].gameName ?? ""),
-                            ],
-                          ),
+            CustomPaginatedSliverBuilder(
+              builder: (context, i) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.r),
+                      color: Colors.transparent,
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 4,
+                          spreadRadius: 0,
+                          offset: Offset(4, 4),
+                          color: Colors.black12,
+                        )
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20.r),
+                      child: Container(
+                        color: Colors.white,
+                        child: Column(
+                          children: [
+                            CachedNetworkImage(
+                              imageUrl: model.tournaments[i].coverUrl ?? "",
+                            ),
+                            Text(model.tournaments[i].name ?? ""),
+                            Text(model.tournaments[i].gameName ?? ""),
+                          ],
                         ),
                       ),
                     ),
-                  );
-                },
-                childCount: model.tournaments.length,
-              ),
+                  ),
+                );
+              },
+              scrollController: scrollController,
             )
           ],
         ),

@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 typedef PaginatedSliverBuilder = Widget Function(
     BuildContext context, int index);
 
-class CustomPaginatedSliverBUilder extends StatefulWidget {
+class CustomPaginatedSliverBuilder extends StatefulWidget {
   final PaginatedSliverBuilder customBuilder;
   final ScrollController scrollController;
   final Function? hitApi;
 
-  const CustomPaginatedSliverBUilder(
+  const CustomPaginatedSliverBuilder(
       {Key? key,
       required PaginatedSliverBuilder builder,
       required this.scrollController,
@@ -17,12 +17,12 @@ class CustomPaginatedSliverBUilder extends StatefulWidget {
         super(key: key);
 
   @override
-  State<CustomPaginatedSliverBUilder> createState() =>
-      _CustomPaginatedSliverBUilderState();
+  State<CustomPaginatedSliverBuilder> createState() =>
+      _CustomPaginatedSliverBuilderState();
 }
 
-class _CustomPaginatedSliverBUilderState
-    extends State<CustomPaginatedSliverBUilder> {
+class _CustomPaginatedSliverBuilderState
+    extends State<CustomPaginatedSliverBuilder> {
   bool isLoading = false;
 
   @override
