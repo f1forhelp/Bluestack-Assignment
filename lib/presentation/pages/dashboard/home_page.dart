@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
         ),
         body: CustomScrollView(
           controller: scrollController,
-          physics: BouncingScrollPhysics(),
+          physics:const BouncingScrollPhysics(),
           slivers: [
             _StatsHeader(),
             CustomPaginatedSliverBuilder(
