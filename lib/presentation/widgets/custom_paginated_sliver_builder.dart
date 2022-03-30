@@ -54,26 +54,27 @@ class _CustomPaginatedSliverBuilderState
   @override
   Widget build(BuildContext context) {
     return SliverList(
-        delegate: SliverChildBuilderDelegate(
-      (context, index) {
-        currentItemCount = index;
-        if (currentItemCount + 1 == widget.itemCount) {
-          return Column(
-            children: [
-              widget.customBuilder(context, index),
-              SizedBox(
-                height: 150.h,
-                child: const Center(
-                  child: CircularProgressIndicator(),
+      delegate: SliverChildBuilderDelegate(
+        (context, index) {
+          currentItemCount = index;
+          if (currentItemCount + 1 == widget.itemCount) {
+            return Column(
+              children: [
+                widget.customBuilder(context, index),
+                SizedBox(
+                  height: 150.h,
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 ),
-              ),
-            ],
-          );
-        } else {
-          return widget.customBuilder(context, index);
-        }
-      },
-      childCount: widget.itemCount ?? 0,
-    ));
+              ],
+            );
+          } else {
+            return widget.customBuilder(context, index);
+          }
+        },
+        childCount: widget.itemCount ?? 0,
+      ),
+    );
   }
 }

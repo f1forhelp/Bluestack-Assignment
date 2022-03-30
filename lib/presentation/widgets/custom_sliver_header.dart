@@ -1,27 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-typedef SliverHeaderBuilder = Widget Function(
-    BuildContext context, double shrinkOffset, bool overlapsContent);
-
 class CustomPeristSliverHeaderentDelegate
     implements SliverPersistentHeaderDelegate {
   final double maxExtent;
   final double minExtent;
   final bool canRebuild;
-  final SliverHeaderBuilder sliverHeaderBuilder;
+  final Widget Function(
+      BuildContext context, double shrinkOffset, bool overlapsContent) builder;
+
   CustomPeristSliverHeaderentDelegate(
       {required this.maxExtent,
       required this.minExtent,
-      required SliverHeaderBuilder builder,
+      required this.builder,
       bool shouldRebuild = true})
-      : sliverHeaderBuilder = builder,
-        canRebuild = shouldRebuild;
+      : canRebuild = shouldRebuild;
 
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return sliverHeaderBuilder(context, shrinkOffset, overlapsContent);
+    return builder(context, shrinkOffset, overlapsContent);
     // print(shrinkOffset /maxExtent);
   }
 

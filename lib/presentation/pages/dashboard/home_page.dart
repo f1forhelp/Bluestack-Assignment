@@ -8,6 +8,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../widgets/custom_appbar.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -25,13 +27,34 @@ class _HomePageState extends State<HomePage> {
     }, builder: (context, model, _) {
       return Scaffold(
         appBar: CustomAppBar(
-          content: Text("Hii"),
+          content: UiHelper.horizontalPadding(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Icon(
+                  Icons.menu,
+                  size: 30.r,
+                ),
+                Text(
+                  "Flyingwolf",
+                  style:
+                      TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
+                ),
+                Icon(
+                  Icons.menu,
+                  size: 30.r,
+                  color: Colors.transparent,
+                ),
+              ],
+            ),
+          ),
         ),
         body: CustomScrollView(
           controller: scrollController,
           physics: const BouncingScrollPhysics(),
           slivers: [
-            // _StatsHeader(),
+            const _UserHeader(),
+            const _StatsHeader(),
             CustomPaginatedSliverBuilder(
               itemCount: model.tournaments.length,
               hitApi: () async {
@@ -63,41 +86,58 @@ class _StatsHeader extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+  double getOpacity(double shrinkOffset) {
+    var opacity = 1 - (shrinkOffset / 120.h) * 2;
+    if (opacity < 0) {
+      return 0;
+    } else {
+      return opacity;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SliverPersistentHeader(
       floating: false,
       pinned: true,
       delegate: CustomPeristSliverHeaderentDelegate(
-        maxExtent: 100.h,
-        minExtent: 100.h,
+        maxExtent: 120.h,
+        minExtent: 120.h,
         builder: (context, shrinkOffset, overlapContent) {
-          return Opacity(
-            opacity: 1 - (shrinkOffset / 100.h),
-            child: UiHelper.horizontalPadding(
-              child: Row(
-                children: [
-                  _StatsTile(
-                    gradientColor: KColor.orangeGradient,
-                    borderRadiusType: BorderRadiusType.leftRounded,
-                    title: "32",
-                    subTitle: "Tournaments\nplayed",
+          return Stack(
+            clipBehavior: Clip.hardEdge,
+            children: [
+              Opacity(
+                opacity: getOpacity(shrinkOffset),
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 20.h),
+                  child: UiHelper.horizontalPadding(
+                    child: Row(
+                      children: [
+                        _StatsTile(
+                          gradientColor: KColor.orangeGradient,
+                          borderRadiusType: BorderRadiusType.leftRounded,
+                          title: "32",
+                          subTitle: "Tournaments\nplayed",
+                        ),
+                        _StatsTile(
+                          gradientColor: KColor.purpleGradient,
+                          title: "32",
+                          borderRadiusType: BorderRadiusType.none,
+                          subTitle: "Tournaments\nwon",
+                        ),
+                        _StatsTile(
+                          gradientColor: KColor.redGradient,
+                          borderRadiusType: BorderRadiusType.rightRounded,
+                          title: "32",
+                          subTitle: "Winning\npercentage",
+                        ),
+                      ],
+                    ),
                   ),
-                  _StatsTile(
-                    gradientColor: KColor.purpleGradient,
-                    title: "32",
-                    borderRadiusType: BorderRadiusType.none,
-                    subTitle: "Tournaments\nwon",
-                  ),
-                  _StatsTile(
-                    gradientColor: KColor.redGradient,
-                    borderRadiusType: BorderRadiusType.rightRounded,
-                    title: "32",
-                    subTitle: "Winning\npercentage",
-                  ),
-                ],
+                ),
               ),
-            ),
+            ],
           );
         },
       ),
@@ -112,65 +152,76 @@ class _UserHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 88.h,
-      child: Row(
-        children: [
-          ClipOval(
-            child: CachedNetworkImage(
-              imageUrl:
-                  "https://staticg.sportskeeda.com/editor/2021/12/ed547-16408681947929-1920.jpg",
-              fit: BoxFit.fill,
-              width: 88.h,
-              height: 88.h,
-            ),
-          ),
-          SizedBox(
-            width: 12.w,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Simon Baker",
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 12.w),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100000),
-                  border: Border.all(
-                    color: KColor.borderBlue,
+    return SliverPersistentHeader(
+      delegate: CustomPeristSliverHeaderentDelegate(
+        maxExtent: 120.h,
+        minExtent: 120.h,
+        builder: (context, shrinkOffset, overlapContent) {
+          return Padding(
+            padding: EdgeInsets.only(top: 22.h, bottom: 20.h),
+            child: UiHelper.horizontalPadding(
+              child: Row(
+                children: [
+                  ClipOval(
+                    child: CachedNetworkImage(
+                      imageUrl:
+                          "https://staticg.sportskeeda.com/editor/2021/12/ed547-16408681947929-1920.jpg",
+                      fit: BoxFit.fill,
+                      width: 88.h,
+                      height: 88.h,
+                    ),
                   ),
-                ),
-                alignment: Alignment.center,
-                child: Row(
-                  children: [
-                    Text(
-                      "2250",
-                      style: TextStyle(
-                        color: KColor.borderBlue,
-                        fontSize: 22.sp,
-                        fontWeight: FontWeight.w600,
+                  SizedBox(
+                    width: 12.w,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Simon Baker",
+                        style: TextStyle(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Text(
-                      "Elo Rating",
-                    ),
-                  ],
-                ),
-              )
-            ],
-          )
-        ],
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 6.h, horizontal: 12.w),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100000),
+                          border: Border.all(
+                            color: KColor.borderBlue,
+                          ),
+                        ),
+                        alignment: Alignment.center,
+                        child: Row(
+                          children: [
+                            Text(
+                              "2250",
+                              style: TextStyle(
+                                color: KColor.borderBlue,
+                                fontSize: 22.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10.w,
+                            ),
+                            Text(
+                              "Elo Rating",
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -321,27 +372,4 @@ class _StatsTile extends StatelessWidget {
       ),
     );
   }
-}
-
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final Widget? content;
-
-  const CustomAppBar({Key? key, this.content}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      // ignore: avoid_unnecessary_containers
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 3.h),
-        constraints: const BoxConstraints(
-          maxHeight: 52,
-        ),
-        child: content,
-      ),
-    );
-  }
-
-  @override
-  Size get preferredSize => Size(1.sw, 46.h);
 }
