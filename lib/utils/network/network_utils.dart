@@ -175,9 +175,10 @@ class _DioClinet {
     _dio = dio ?? Dio();
     _dio
       ..options.baseUrl = baseUrl
-      ..options.connectTimeout = 999999999
-      ..options.receiveTimeout = 999999999
-      ..httpClientAdapter
+      ..options.connectTimeout = 20 * 1000
+      ..options.receiveTimeout = 20 * 1000
+      ..options.receiveDataWhenStatusError = true
+      // ..httpClientAdapter
       ..options.headers = {'Content-Type': 'application/json; charset=UTF-8'};
 
     if (interceptors.isNotEmpty) {

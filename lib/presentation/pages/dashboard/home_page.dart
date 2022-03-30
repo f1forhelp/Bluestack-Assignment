@@ -29,13 +29,13 @@ class _HomePageState extends State<HomePage> {
         ),
         body: CustomScrollView(
           controller: scrollController,
-          physics:const BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           slivers: [
             _StatsHeader(),
             CustomPaginatedSliverBuilder(
               itemCount: model.tournaments.length,
               hitApi: () async {
-                return await model.getAllTournament();
+                await model.getAllTournament();
               },
               builder: (context, i) {
                 return Padding(

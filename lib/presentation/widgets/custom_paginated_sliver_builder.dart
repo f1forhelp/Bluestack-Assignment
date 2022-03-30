@@ -34,16 +34,17 @@ class _CustomPaginatedSliverBuilderState
       if ((widget.scrollController.position.maxScrollExtent -
                   widget.scrollController.position.pixels)
               .abs() <
-          200) {
-        await requestApi();
-        //HIt api
+          0) {
+        if (!isLoading) {
+          await requestApi();
+        }
       }
     });
     super.initState();
   }
 
   Future requestApi() async {
-    if (widget.hitApi != null && !isLoading) {
+    if (widget.hitApi != null) {
       isLoading = true;
       setState(() {});
       await widget.hitApi!();
