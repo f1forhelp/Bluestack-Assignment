@@ -11,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../widgets/custom_appbar.dart';
 
 class HomePage extends StatefulWidget {
+  static const String id = "HomePage";
   const HomePage({Key? key}) : super(key: key);
 
   @override

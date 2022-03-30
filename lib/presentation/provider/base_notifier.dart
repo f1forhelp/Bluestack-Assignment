@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum ViewState { loading, loaded, initial }
+enum ViewState { loading, loaded, initial, error }
 
 class BaseNotifier extends ChangeNotifier {
   ViewState _viewState1 = ViewState.initial;
