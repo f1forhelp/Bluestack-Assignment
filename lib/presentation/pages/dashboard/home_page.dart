@@ -1,8 +1,10 @@
+import 'package:bluestack_assignment/presentation/pages/authentication/login_screen.dart';
 import 'package:bluestack_assignment/presentation/provider/dashboard/home_provder.dart';
 import 'package:bluestack_assignment/presentation/widgets/base_view.dart';
 import 'package:bluestack_assignment/presentation/widgets/custom_paginated_sliver_builder.dart';
 import 'package:bluestack_assignment/presentation/widgets/custom_sliver_header.dart';
 import 'package:bluestack_assignment/utils/constants/color_constants.dart';
+import 'package:bluestack_assignment/utils/di/app_init.dart';
 import 'package:bluestack_assignment/utils/helper/ui_helper.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -20,22 +22,29 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   ScrollController scrollController = ScrollController();
-
   @override
   Widget build(BuildContext context) {
     return BaseView<HomeProvider>(onModelReady: (model) {
       model.getAllTournament();
     }, builder: (context, model, _) {
       return Scaffold(
+        drawer: CustomDrawer(),
         appBar: CustomAppBar(
           content: UiHelper.horizontalPadding(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Icon(
-                  Icons.menu,
-                  size: 30.r,
-                ),
+                Builder(builder: (context) {
+                  return InkWell(
+                    onTap: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                    child: Icon(
+                      Icons.menu,
+                      size: 30.r,
+                    ),
+                  );
+                }),
                 Text(
                   "Flyingwolf",
                   style:
@@ -371,6 +380,41 @@ class _StatsTile extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class CustomDrawer extends StatelessWidget {
+  const CustomDrawer({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 0.7.sw,
+      height: 1.sh,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+      ),
+      child: Column(
+        children: [
+          SizedBox(
+            height: 100.h,
+          ),
+          GestureDetector(
+            onTap: () async {
+              await AppInit.pref.clear();
+              Navigator.pushNamed(context, LoginPage.id);
+            },
+            child: Text(
+              "Logout",
+              style: TextStyle(
+                fontSize: 20.sp,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
