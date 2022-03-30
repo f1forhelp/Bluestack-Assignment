@@ -7,12 +7,13 @@ class CustomPaginatedSliverBuilder extends StatefulWidget {
   final PaginatedSliverBuilder customBuilder;
   final ScrollController scrollController;
   final Function? hitApi;
-
+  final int? itemCount;
   const CustomPaginatedSliverBuilder(
       {Key? key,
       required PaginatedSliverBuilder builder,
       required this.scrollController,
-      this.hitApi})
+      this.hitApi,
+      this.itemCount})
       : customBuilder = builder,
         super(key: key);
 
@@ -52,10 +53,12 @@ class _CustomPaginatedSliverBuilderState
 
   @override
   Widget build(BuildContext context) {
-    return SliverList(delegate: SliverChildBuilderDelegate(
+    return SliverList(
+        delegate: SliverChildBuilderDelegate(
       (context, index) {
         return widget.customBuilder(context, index);
       },
+      childCount: widget.itemCount ?? 0,
     ));
   }
 }

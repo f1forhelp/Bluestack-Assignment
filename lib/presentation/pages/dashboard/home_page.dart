@@ -52,6 +52,7 @@ class _HomePageState extends State<HomePage> {
             //   ),
             // ),
             CustomPaginatedSliverBuilder(
+              itemCount: model.tournaments.length,
               builder: (context, i) {
                 return Padding(
                   padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
