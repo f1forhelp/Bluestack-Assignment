@@ -209,7 +209,7 @@ class _UserHeader extends StatelessWidget {
                             SizedBox(
                               width: 10.w,
                             ),
-                            Text(
+                            const Text(
                               "Elo Rating",
                             ),
                           ],
@@ -243,8 +243,9 @@ class _TournamentsListItem extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.r),
         color: Colors.transparent,
+        // ignore: prefer_const_literals_to_create_immutables
         boxShadow: [
-          BoxShadow(
+          const BoxShadow(
             blurRadius: 4,
             spreadRadius: 0,
             offset: Offset(4, 4),

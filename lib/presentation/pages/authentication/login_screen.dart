@@ -17,7 +17,7 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Colors.white,
       body: Container(
         height: 1.sh,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.black,
           // gradient: LinearGradient(
           //   begin: Alignment.topCenter,
@@ -40,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
                 hintText: "Password",
               ),
               Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(999)),

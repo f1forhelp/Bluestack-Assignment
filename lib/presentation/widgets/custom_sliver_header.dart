@@ -3,7 +3,9 @@ import 'package:flutter/rendering.dart';
 
 class CustomPeristSliverHeaderentDelegate
     implements SliverPersistentHeaderDelegate {
+  @override
   final double maxExtent;
+  @override
   final double minExtent;
   final bool canRebuild;
   final Widget Function(
