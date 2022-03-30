@@ -19,15 +19,6 @@ class _HomePageState extends State<HomePage> {
   ScrollController scrollController = ScrollController();
 
   @override
-  void initState() {
-    scrollController.addListener(() {
-      print(scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent);
-    });
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BaseView<HomeProvider>(onModelReady: (model) {
       model.getAllTournament();
@@ -54,7 +45,7 @@ class _HomePageState extends State<HomePage> {
             CustomPaginatedSliverBuilder(
               itemCount: model.tournaments.length,
               hitApi: () async {
-                model.getAllTournament();
+                return await model.getAllTournament();
               },
               builder: (context, i) {
                 return Padding(

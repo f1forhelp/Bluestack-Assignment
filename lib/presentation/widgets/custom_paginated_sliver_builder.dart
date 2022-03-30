@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 typedef PaginatedSliverBuilder = Widget Function(
     BuildContext context, int index);
 
+typedef FutureCall = Future Function();
+
 class CustomPaginatedSliverBuilder extends StatefulWidget {
   final PaginatedSliverBuilder customBuilder;
   final ScrollController scrollController;
-  final Function? hitApi;
+  final FutureCall? hitApi;
   final int? itemCount;
   const CustomPaginatedSliverBuilder(
       {Key? key,
@@ -37,7 +39,6 @@ class _CustomPaginatedSliverBuilderState
         //HIt api
       }
     });
-
     super.initState();
   }
 
