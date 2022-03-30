@@ -1,3 +1,4 @@
+import 'package:bluestack_assignment/presentation/pages/authentication/login_screen.dart';
 import 'package:bluestack_assignment/presentation/pages/dashboard/home_page.dart';
 import 'package:bluestack_assignment/utils/di/app_init.dart';
 import 'package:bot_toast/bot_toast.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
         navigatorObservers: [BotToastNavigatorObserver()],
         title: 'Flutter Demo',
         theme: ThemeData.light(),
-        home: const HomePage(),
+        home: const LoginPage(),
       ),
     );
   }
