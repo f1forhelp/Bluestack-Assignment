@@ -31,19 +31,21 @@ class _HomePageState extends State<HomePage> {
           controller: scrollController,
           physics: const BouncingScrollPhysics(),
           slivers: [
-            _StatsHeader(),
+            // _StatsHeader(),
             CustomPaginatedSliverBuilder(
               itemCount: model.tournaments.length,
               hitApi: () async {
                 await model.getAllTournament();
               },
               builder: (context, i) {
-                return Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                  child: _TournamentsListItem(
-                    coverUrl: model.tournaments[i].coverUrl,
-                    gameName: model.tournaments[i].gameName,
-                    name: model.tournaments[i].name,
+                return UiHelper.horizontalPadding(
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 24.h),
+                    child: _TournamentsListItem(
+                      coverUrl: model.tournaments[i].coverUrl,
+                      gameName: model.tournaments[i].gameName,
+                      name: model.tournaments[i].name,
+                    ),
                   ),
                 );
               },
@@ -244,7 +246,7 @@ class _TournamentsListItem extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Icon(Icons.arrow_forward_ios),
+                      Icon(Icons.arrow_forward_ios, size: 22.r),
                     ],
                   ),
                 ),

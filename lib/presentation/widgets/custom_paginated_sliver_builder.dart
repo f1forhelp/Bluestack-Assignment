@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 typedef PaginatedSliverBuilder = Widget Function(
     BuildContext context, int index);
@@ -27,14 +28,11 @@ class CustomPaginatedSliverBuilder extends StatefulWidget {
 class _CustomPaginatedSliverBuilderState
     extends State<CustomPaginatedSliverBuilder> {
   bool isLoading = false;
-
+  int currentItemCount = 0;
   @override
   void initState() {
     widget.scrollController.addListener(() async {
-      if ((widget.scrollController.position.maxScrollExtent -
-                  widget.scrollController.position.pixels)
-              .abs() <
-          0) {
+      if (currentItemCount + 1 == widget.itemCount) {
         if (!isLoading) {
           await requestApi();
         }
@@ -58,7 +56,22 @@ class _CustomPaginatedSliverBuilderState
     return SliverList(
         delegate: SliverChildBuilderDelegate(
       (context, index) {
-        return widget.customBuilder(context, index);
+        currentItemCount = index;
+        if (currentItemCount + 1 == widget.itemCount) {
+          return Column(
+            children: [
+              widget.customBuilder(context, index),
+              SizedBox(
+                height: 150.h,
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            ],
+          );
+        } else {
+          return widget.customBuilder(context, index);
+        }
       },
       childCount: widget.itemCount ?? 0,
     ));
