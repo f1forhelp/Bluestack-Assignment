@@ -1,3 +1,6 @@
+import 'package:bluestack_assignment/presentation/provider/dashboard/home_provder.dart';
+import 'package:bluestack_assignment/presentation/widgets/base_view.dart';
+import 'package:bluestack_assignment/presentation/widgets/custom_sliver_header.dart';
 import 'package:bluestack_assignment/utils/constants/color_constants.dart';
 import 'package:bluestack_assignment/utils/helper/ui_helper.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -12,107 +15,216 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  ScrollController scrollController = ScrollController();
+
+  @override
+  void initState() {
+    scrollController.addListener(() {
+      print(scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent);
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(
-        content: Text("Hii"),
-      ),
-      body: SafeArea(
-        child: UiHelper.horizontalPadding(
-          child: Column(
-            children: [
-              Container(
-                height: 88.h,
-                child: Row(
-                  children: [
-                    ClipOval(
-                      child: CachedNetworkImage(
-                        imageUrl:
-                            "https://staticg.sportskeeda.com/editor/2021/12/ed547-16408681947929-1920.jpg",
-                        fit: BoxFit.fill,
-                        width: 88.h,
-                        height: 88.h,
+    return BaseView<HomeProvider>(onModelReady: (model) {
+      model.getAllTournament();
+    }, builder: (context, model, _) {
+      return Scaffold(
+        appBar: CustomAppBar(
+          content: Text("Hii"),
+        ),
+        body: CustomScrollView(
+          controller: scrollController,
+          physics: BouncingScrollPhysics(),
+          slivers: [
+            // SliverPersistentHeader(
+            //   delegate: CustomPeristSliverHeaderentDelegate(
+            //     maxExtent: 180,
+            //     minExtent: 0,
+            //     builder: (context, shrinkOffset, overlapContent) {
+            //       return Opacity(
+            //         opacity: 1 - (shrinkOffset / 180),
+            //       );
+            //     },
+            //   ),
+            // ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, i) {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20.r),
+                        color: Colors.transparent,
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 4,
+                            spreadRadius: 0,
+                            offset: Offset(4, 4),
+                            color: Colors.black12,
+                          )
+                        ],
                       ),
-                    ),
-                    SizedBox(
-                      width: 12.w,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Simon Baker",
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 6.h, horizontal: 12.w),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100000),
-                            border: Border.all(
-                              color: KColor.borderBlue,
-                            ),
-                          ),
-                          alignment: Alignment.center,
-                          child: Row(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20.r),
+                        child: Container(
+                          color: Colors.white,
+                          child: Column(
                             children: [
-                              Text(
-                                "2250",
-                                style: TextStyle(
-                                  color: KColor.borderBlue,
-                                  fontSize: 22.sp,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                              CachedNetworkImage(
+                                imageUrl: model.tournaments[i].coverUrl ?? "",
                               ),
-                              SizedBox(
-                                width: 10.w,
-                              ),
-                              Text(
-                                "Elo Rating",
-                              ),
+                              Text(model.tournaments[i].name ?? ""),
+                              Text(model.tournaments[i].gameName ?? ""),
                             ],
                           ),
-                        )
-                      ],
-                    )
-                  ],
-                ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                childCount: model.tournaments.length,
               ),
-              Container(
-                child: Row(
-                  children: [
-                    _StatsTile(
-                        gradientColor: KColor.orangeGradient,
-                        borderRadiusType: BorderRadiusType.leftRounded,
-                        title: "20",
-                        subTitle: "Tournaments\nPlayed"),
-                    _StatsTile(
-                        gradientColor: KColor.purpleGradient,
-                        title: "20",
-                        subTitle: "Tournaments\nPlayed"),
-                    _StatsTile(
-                        gradientColor: KColor.redGradient,
-                        borderRadiusType: BorderRadiusType.rightRounded,
-                        title: "20",
-                        subTitle: "Tournaments\nPlayed"),
-                  ],
-                ),
-              ),
-              Text(
-                "Recommended for you",
-                style: TextStyle(),
-              ),
-            ],
-          ),
+            )
+          ],
         ),
-      ),
-    );
+        // body: SafeArea(
+        //   child: Column(
+        //     children: [
+        //       Container(
+        //         height: 88.h,
+        //         child: Row(
+        //           children: [
+        //             ClipOval(
+        //               child: CachedNetworkImage(
+        //                 imageUrl:
+        //                     "https://staticg.sportskeeda.com/editor/2021/12/ed547-16408681947929-1920.jpg",
+        //                 fit: BoxFit.fill,
+        //                 width: 88.h,
+        //                 height: 88.h,
+        //               ),
+        //             ),
+        //             SizedBox(
+        //               width: 12.w,
+        //             ),
+        //             Column(
+        //               crossAxisAlignment: CrossAxisAlignment.start,
+        //               mainAxisSize: MainAxisSize.max,
+        //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //               children: [
+        //                 Text(
+        //                   "Simon Baker",
+        //                   style: TextStyle(
+        //                     fontSize: 18.sp,
+        //                     fontWeight: FontWeight.w700,
+        //                   ),
+        //                 ),
+        //                 Container(
+        //                   padding: EdgeInsets.symmetric(
+        //                       vertical: 6.h, horizontal: 12.w),
+        //                   decoration: BoxDecoration(
+        //                     borderRadius: BorderRadius.circular(100000),
+        //                     border: Border.all(
+        //                       color: KColor.borderBlue,
+        //                     ),
+        //                   ),
+        //                   alignment: Alignment.center,
+        //                   child: Row(
+        //                     children: [
+        //                       Text(
+        //                         "2250",
+        //                         style: TextStyle(
+        //                           color: KColor.borderBlue,
+        //                           fontSize: 22.sp,
+        //                           fontWeight: FontWeight.w600,
+        //                         ),
+        //                       ),
+        //                       SizedBox(
+        //                         width: 10.w,
+        //                       ),
+        //                       Text(
+        //                         "Elo Rating",
+        //                       ),
+        //                     ],
+        //                   ),
+        //                 )
+        //               ],
+        //             )
+        //           ],
+        //         ),
+        //       ),
+        //       Container(
+        //         child: Row(
+        //           children: [
+        //             _StatsTile(
+        //                 gradientColor: KColor.orangeGradient,
+        //                 borderRadiusType: BorderRadiusType.leftRounded,
+        //                 title: "20",
+        //                 subTitle: "Tournaments\nPlayed"),
+        //             _StatsTile(
+        //                 gradientColor: KColor.purpleGradient,
+        //                 title: "20",
+        //                 subTitle: "Tournaments\nPlayed"),
+        //             _StatsTile(
+        //                 gradientColor: KColor.redGradient,
+        //                 borderRadiusType: BorderRadiusType.rightRounded,
+        //                 title: "20",
+        //                 subTitle: "Tournaments\nPlayed"),
+        //           ],
+        //         ),
+        //       ),
+        //       Text(
+        //         "Recommended for you",
+        //         style: TextStyle(),
+        //       ),
+        //       Expanded(
+        //         child: ListView.builder(
+        //           itemCount: model.tournaments.length,
+        //           itemBuilder: (context, i) {
+        //             return Padding(
+        //               padding:
+        //                   EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+        //               child: Container(
+        //                 decoration: BoxDecoration(
+        //                   borderRadius: BorderRadius.circular(20.r),
+        //                   color: Colors.transparent,
+        //                   boxShadow: [
+        //                     BoxShadow(
+        //                       blurRadius: 4,
+        //                       spreadRadius: 0,
+        //                       offset: Offset(4, 4),
+        //                       color: Colors.black12,
+        //                     )
+        //                   ],
+        //                 ),
+        //                 child: ClipRRect(
+        //                   borderRadius: BorderRadius.circular(20.r),
+        //                   child: Container(
+        //                     color: Colors.white,
+        //                     child: Column(
+        //                       children: [
+        //                         CachedNetworkImage(
+        //                           imageUrl: model.tournaments[i].coverUrl ?? "",
+        //                         ),
+        //                         Text(model.tournaments[i].name ?? ""),
+        //                         Text(model.tournaments[i].gameName ?? ""),
+        //                       ],
+        //                     ),
+        //                   ),
+        //                 ),
+        //               ),
+        //             );
+        //           },
+        //         ),
+        //       )
+        //     ],
+        //   ),
+        // ),
+      );
+    });
   }
 }
 
