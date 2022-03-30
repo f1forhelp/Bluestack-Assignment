@@ -6,10 +6,10 @@ import 'package:bluestack_assignment/utils/network/network_utils.dart';
 class DashBoardRepo {
   static final NetworkUtil _networkUtil = NetworkUtil(baseUrl: "");
 
-  static Future<ApiResult<GetAllTournamentResponse>>
-      getAllTournamentResponse() async {
+  static Future<ApiResult<GetAllTournamentResponse>> getAllTournamentResponse(
+      {String? cursor}) async {
     try {
-      var res = await _networkUtil.get(KUrl.getAllTournaments());
+      var res = await _networkUtil.get(KUrl.getAllTournaments(cursor: cursor));
       var data = GetAllTournamentResponse.fromJson(res.data);
       return ApiResult.success(data: data);
     } catch (e) {

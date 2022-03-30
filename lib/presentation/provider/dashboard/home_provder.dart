@@ -12,7 +12,8 @@ class HomeProvider extends BaseNotifier {
 
   getAllTournament() async {
     viewState1 = ViewState.loading;
-    var res = await DashBoardRepo.getAllTournamentResponse();
+    var res = await DashBoardRepo.getAllTournamentResponse(
+        cursor: _getAllTournamentResponse.data?.cursor);
     res.when(success: (data) {
       _getAllTournamentResponse = data;
       tournaments.addAll(data.data?.tournaments ?? []);
