@@ -11,6 +11,10 @@ class HomeProvider extends BaseNotifier {
   List<Tournament> tournaments = [];
 
   Future getAllTournament() async {
+    if (_getAllTournamentResponse.data?.cursor == null) {
+      BotToast.showLoading();
+    }
+
     viewState1 = ViewState.loading;
     var res = await DashBoardRepo.getAllTournamentResponse(
         cursor: _getAllTournamentResponse.data?.cursor);
@@ -22,5 +26,6 @@ class HomeProvider extends BaseNotifier {
       BotToast.showText(text: NetworkUtil.getErrorMessage(e));
     });
     viewState1 = ViewState.loaded;
+    BotToast.closeAllLoading();
   }
 }
